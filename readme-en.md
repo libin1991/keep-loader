@@ -4,6 +4,10 @@
 
 Generate different code based on the development and production environment, just like the macro features of some compiled programming languages, like C.
 
+English document：https://github.com/wendux/keep-loader/blob/master/readme-en.md
+
+中文文档：https://github.com/wendux/keep-loader/blob/master/readme.md
+
 ## usage
 
 1. Install keep-loader 
@@ -23,7 +27,7 @@ Generate different code based on the development and production environment, jus
            test: /\.js$/,
            use: [
              {
-               loader: '../../keep-loader',
+               loader: 'keep-loader',
                options:{
                  keep:process.env.NODE_ENV === 'production'?"prod":"dev"
                }

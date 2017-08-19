@@ -4,6 +4,10 @@
 
 keep-loader用于在不同的打包环境下需要生成不同的代码的场景，就像C/C++中的宏特性一样。
 
+English document：https://github.com/wendux/keep-loader/blob/master/readme-en.md
+
+Chinese document：https://github.com/wendux/keep-loader/blob/master/readme.md
+
 ## 使用
 
 1. 安装 keep-loader 
@@ -23,7 +27,7 @@ keep-loader用于在不同的打包环境下需要生成不同的代码的场景
            test: /\.js$/,
            use: [
              {
-               loader: '../../keep-loader',
+               loader: 'keep-loader',
                options:{
                  keep:process.env.NODE_ENV === 'production'?"prod":"dev"
                }

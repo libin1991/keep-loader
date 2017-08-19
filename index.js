@@ -1,5 +1,5 @@
 /**
- * Created by demons on 2017/8/12.
+ * Created by du on 2017/8/12.
  */
 var esprima = require('esprima')
 var loaderUtils = require("loader-utils");

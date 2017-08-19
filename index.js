@@ -1,31 +1,36 @@
 /**
  * Created by demons on 2017/8/12.
  */
-var source = "function debug(cb){cb();}var t=8;debug('dev',()=>{t=9});debug('release',()=>{t=9})";
-var log = console.log;
 var esprima = require('esprima')
-function isDebugCall(node) {
+var loaderUtils = require("loader-utils");
+var fs = require("fs")
+
+function isRemove(node,env) {
     return (node.type === 'CallExpression')
-        && (node.callee.name === 'debug')
+        && (node.callee.name === 'KEEP')
         && (node.callee.type === 'Identifier')
-    &&(node.arguments[0].value!=='dev')
+        && (node.arguments[0].value !== env)
 }
-function removeDebug(source) {
+function keep(source,env) {
     const entries = [];
-     esprima.parseScript(source, {}, function (node, meta) {
-        if (isDebugCall(node)) {
+    esprima.parseModule(source, {}, function (node, meta) {
+        if (isRemove(node,env)) {
             entries.push({
                 start: meta.start.offset,
                 end: meta.end.offset
             });
         }
     });
-        entries.sort((a, b) => {return b.end - a.end}
-        ).
-        forEach(n => {
-            source = source.slice(0, n.start) + source.slice(n.end);
+    entries.sort((a, b) => {
+            return b.end - a.end
+        }
+    ).forEach(n => {
+        source = source.slice(0, n.start) + source.slice(n.end);
     });
-    return source;
+    return "function KEEP(_,cb){cb();}\n" + source;
 }
 
-log(removeDebug(source))
+module.exports = function(source, map) {
+    var options=loaderUtils.getOptions(this)||{}
+    this.callback(null, keep(source,options.keep||""), map);
+};

@@ -69,3 +69,6 @@ exports.styleLoaders = function (options) {
   }
   return output
 }
+exports.getEnv=function () {
+ return  process.argv[2]||(process.env.NODE_ENV === 'production'?"prod":"dev");
+}

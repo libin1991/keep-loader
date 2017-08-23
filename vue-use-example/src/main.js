@@ -7,11 +7,15 @@ Vue.config.productionTip = false
 
 var t=e=>{console.log(e)}
 
-KEEP("dev",e=>{
-  console.log("xxxx")
-  alert("")
+KEEP("dev",()=>{
+  console.log("我是测试环境")
 })
-
+KEEP("qa",()=>{
+  console.log("我是qa环境环境")
+})
+KEEP("!dev",()=>{
+  console.log("我是非测试环境")
+})
 new Vue({
   el: '#app',
   template: '<App/>',

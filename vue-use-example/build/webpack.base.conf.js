@@ -2,11 +2,10 @@ var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
-
+var keep=require("../../helper")
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
-
 module.exports = {
   entry: {
     app: './src/main.js'
@@ -38,13 +37,12 @@ module.exports = {
           {
             loader: '../../keep-loader',
             options:{
-              keep:process.env.NODE_ENV === 'production'?"prod":"dev"
+              keep:utils.getEnv()
             }
           },
           {
             loader: 'babel-loader',
           }
-
         ],
         include: [resolve('src'), resolve('test')]
       },

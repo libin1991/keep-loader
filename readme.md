@@ -1,8 +1,6 @@
 # keep-loader for webpack
 
-## 描述
-
-keep-loader用于在不同的打包环境下需要生成不同的代码的场景，就像C/C++中的宏特性一样。
+keep-loader用于在不同的打包环境下需要生成不同的代码的场景，就像C/C++中的宏特性一样。提供了一种在源码中控制打包阶段生成不同代码的能力。
 
 English document：https://github.com/wendux/keep-loader/blob/master/readme-en.md
 
@@ -42,15 +40,19 @@ Chinese document：https://github.com/wendux/keep-loader/blob/master/readme.md
     }
    ```
 
+注意：打包的时候，keep-loader的keep参数的值代表当前打包环境。keep-loader会根据这个环境参数决定打包过程保留哪些代码。
+
 现在，你在代码里可以直接使用 `KEEP`  函数 , 例如:
 
 ```javascript
-var env=""
+
 KEEP("dev",e=>{
+  //此部分代码只会在dev环境中保留
   console.log("我将会在dev构建过程中保留,其它环境构建过程中被移除")
   env="production"
 })
 KEEP("prod",e=>{
+  //此部分代码只会在prod环境中保留
   console.log("我将会在prod构建过程中输出,其它环境构建过程中被移除")
   env="production"
 })
@@ -60,7 +62,7 @@ console.log(env)
 
 ### KEEP(env,callback)
 
-此函数在keep-loader中动态定义，你不必手动定义。
+此函数在keep-loader中动态定义，你不必手动定义。功能：简单来说，就是指定在什么环境下保留代码。
 
 - env : 要保留代码的环境，值必须和webpack配置中keep-loader的options的keep值相匹配。另外，env必须是一个字符串直接量，而不能是变量！因为，keep-loader实在构建过程中处理js源码，而不是在执行过程中。
 - callback: 要保留的源码回调； 保留的回调会就地立即执行。
@@ -72,7 +74,9 @@ console.log(env)
 ```javascript
 function getAssetBaseUrl(){
   var baseUrl="http://localhost/static"
+  
   KEEP("prod",()=>{
+    //此部分代码只会在prod环境中保留
     baseUrl="http://cdn.xxx.com/static"
   })
   return baseUrl;
@@ -89,6 +93,34 @@ function log(){
   })
 }
 ```
+3. 比如我们允许在测试环境中弹出alert，但在其他环境禁止弹出alert。
+
+```javascript
+var _alert=alert;
+window.alert=function(msg){
+   KEEP("dev",()=>{
+    //此部分代码只会在dev环境中保留
+    _alert(msg)
+  })
+}
+```
+
+
+
+## 工具函数
+
+为了方便使用，您可以直接使用工具函数来处理一段源码
+
+```javascript
+var keep=require('keep-loader/helper')
+source=keep(source,env)
+```
+
+**keep(source, env)**
+
+source为源代码字符串，env为打包环境，返回处理过的源码。
+
 ### 最后
-欢迎Star
+
+欢迎Star， [keep-loader github地址](https://github.com/wendux/keep-loader)
 

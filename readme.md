@@ -107,6 +107,23 @@ window.alert=function(msg){
 
 
 
+## 逻辑运算符支持
+
+```javascript
+  
+  //非dev环境下保留
+  KEEP("!dev",()=>{...})
+  //在dev和pre环境中保留
+  KEEP("dev||pre",()=>{...})
+  //除过dev和pre环境，其余环境保留
+  KEEP("!(dev||pre)",()=>{...})
+  //只要不是prod环境，则保留
+  KEEP("!prod",()=>{...})
+  
+```
+
+
+
 ## 工具函数
 
 为了方便使用，您可以直接使用工具函数来处理一段源码

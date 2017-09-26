@@ -1,7 +1,4 @@
 /**
- * Created by du on 2017/8/22.
- */
-/**
  * Created by du on 2017/8/12.
  */
 var esprima = require('esprima')
